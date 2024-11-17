@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <time.h>
 
 #include "usuarios.h"
 
+int aleatorio(int inferior, int superior) {
+    return inferior + rand() % (superior - inferior + 1);
+}
 void leerdatabase(FILE* data, nodo** cabeza) {
     usuario usuariotemp;
-    nodo* actual;
+    nodo* actual = NULL;
 
     while(fread(&usuariotemp, sizeof(usuario), 1, data) == 1) {
         nodo* nodo_nuevo = crearNodo(usuariotemp);
@@ -42,6 +47,7 @@ void verUsuarios(nodo* cabeza) {
         printf("Apellidos: %s\n", cabeza->_usuario.apellidos);
         printf("DNI: %lld\n", cabeza->_usuario.dni);
         printf("Numero de tarjeta: %lld\n", cabeza->_usuario.nroTarjeta);
+        printf("Clave: %d\n", cabeza->_usuario.clave);
         printf("Saldo: %10.2f\n", cabeza->_usuario.saldo);
         printf("Estado: %s\n\n", cabeza->_usuario.bloqueado ? "bloqueado":"no bloqueado");
         indice += 1;
@@ -69,7 +75,7 @@ usuario crearUsuario(ll dni) {
     fgets(usuariotemp.nombres, LENGTHNOMBRES, stdin);
 
     longitud = strlen(usuariotemp.nombres);
-    if(usuariotemp.nombres[longitud - 1] == "\n") {
+    if(usuariotemp.nombres[longitud - 1] == '\n') {
         usuariotemp.nombres[longitud - 1] = '\0';
     }
 
@@ -77,7 +83,7 @@ usuario crearUsuario(ll dni) {
     fgets(usuariotemp.apellidos, LENGTHAPELLIDOS, stdin);
 
     longitud = strlen(usuariotemp.apellidos);
-    if(usuariotemp.apellidos[longitud - 1] == "\n") {
+    if(usuariotemp.apellidos[longitud - 1] == '\n') {
         usuariotemp.apellidos[longitud - 1] = '\0';
     }
 
@@ -198,4 +204,44 @@ void editarUsuario(FILE* data, usuario* usuario_0) {
 
         return;
     }
+}
+void eliminarUsuario(FILE* data, nodo** cabeza, usuario usuario_0) {
+    nodo* anterior = NULL;
+    nodo* actual = *cabeza;
+    data = freopen("src/proyecto-cajero/usuarios.dat", "wb+", data);
+
+    while(actual != NULL) {
+        if(actual->_usuario.dni != usuario_0.dni) {
+            if(fwrite(&(actual->_usuario), sizeof(usuario), 1, data) != 1) {
+                printf("Error al eliminar usuario\n");
+
+                return;
+            }
+
+            anterior = actual;
+            actual = actual->siguiente;
+        }   else {
+            if(actual == *cabeza) {
+                *cabeza = (*cabeza)->siguiente;
+                free(actual);
+                actual = *cabeza;
+            }   else {
+                anterior->siguiente = actual->siguiente;
+                free(actual);
+                actual = anterior->siguiente;
+            }
+        }
+    }
+}
+ll generarTarjeta() {
+    ll tarjeta;
+    size_t indice;
+
+    tarjeta = aleatorio(1, 9);
+    for(indice = 0; indice < 15; indice++) {
+        tarjeta *= 10;
+        tarjeta += aleatorio(0, 9);
+    }
+
+    return tarjeta;
 }

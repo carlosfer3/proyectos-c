@@ -8,8 +8,8 @@
 
 int main(void) {
     FILE* data;
-    nodo* cabeza;
-    nodo* actual;
+    nodo* cabeza = NULL;
+    nodo* actual = NULL;
 
     size_t operacion;
     ll dni;
@@ -22,6 +22,7 @@ int main(void) {
     }
 
     leerdatabase(data, &cabeza);
+    srand(time(NULL));
 
     do {
         puts("OPERACION 1: VER BASE DE DATOS.");
@@ -29,8 +30,8 @@ int main(void) {
         puts("OPERACION 3: EDITAR USUARIO.");
         puts("OPERACION 4: ELIMINAR USUARIO.");
         puts("OPERACION 5: SALIR.\n");
-        puts("Ingrese una de las opciones: ");
-        scanf("%zu", operacion);
+        printf("Ingrese una de las opciones: ");
+        scanf("%zu", &operacion);
         getchar();
 
         switch(operacion) {
@@ -45,7 +46,7 @@ int main(void) {
                 scanf("%lld", &dni);
                 getchar();
 
-                if(convalidar_dni) {
+                if(convalidar_dni(cabeza, dni)) {
                     printf("Ya se ingreso un usuario con ese dni\n");
                     break;
                 }
@@ -83,8 +84,25 @@ int main(void) {
 
                 break;
             case 4:
-                
+                printf("Ingrese el dni: ");
+                scanf("%lld", &dni);
+                getchar();
+
+                actual = cabeza;
+                buscarUsuario(&actual, dni);
+
+                if(actual == NULL) {
+                    printf("No se ha registrado a un usuario con ese dni\n");
+                    break;
+                }
+
+                usuario_0 = actual->_usuario;
+                eliminarUsuario(data, &cabeza, usuario_0);
+                printf("Usuario eliminado correctamente!\n");
+
+                break;
             case 5:
+                printf("VUELVA PRONTO!\n");
                 break;
             default:
                 puts("Debe de ingresar una operacion valida!");

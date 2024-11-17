@@ -25,6 +25,7 @@ typedef struct Nodo{
     struct Nodo* siguiente;
 }   nodo;
 
+int aleatorio(int inferior, int superior);
 void leerdatabase(FILE* data, nodo** cabeza);
 nodo* crearNodo(usuario usser);
 void verUsuarios(nodo* cabeza);
@@ -33,5 +34,7 @@ usuario crearUsuario(ll dni);
 void registrarUsuario(FILE* data, nodo**cabeza, usuario usuario_0);
 void buscarUsuario(nodo** actual, ll dni);
 void editarUsuario(FILE* data, usuario* usuario_0);
+void eliminarUsuario(FILE* data, nodo** cabeza, usuario usuario_0);
+ll generarTarjeta();
 
 #endif
