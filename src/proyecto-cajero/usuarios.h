@@ -25,16 +25,26 @@ typedef struct Nodo{
     struct Nodo* siguiente;
 }   nodo;
 
+//funciones generales
 int aleatorio(int inferior, int superior);
 void leerdatabase(FILE* data, nodo** cabeza);
 nodo* crearNodo(usuario usser);
-void verUsuarios(nodo* cabeza);
+ll generarTarjeta();
+ll solicitarDNI();
+void buscarUsuario(nodo** actual, ll dni);
 bool convalidar_dni(nodo* cabeza, ll dni);
 usuario crearUsuario(ll dni);
+
+//funciones de intranet
+void verUsuarios(nodo* cabeza);
 void registrarUsuario(FILE* data, nodo**cabeza, usuario usuario_0);
-void buscarUsuario(nodo** actual, ll dni);
-void editarUsuario(FILE* data, usuario* usuario_0);
-void eliminarUsuario(FILE* data, nodo** cabeza, usuario usuario_0);
-ll generarTarjeta();
+void editarUsuario(FILE* data, nodo** cabeza, ll dni);
+void eliminarUsuario(FILE* data, nodo** cabeza, ll dni);
+
+//funciones de banco
+
+
+//funciones de cajero
+void buscarUsuarioT(nodo** actual, ll tarjeta);
 
 #endif
