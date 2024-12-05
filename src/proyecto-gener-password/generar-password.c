@@ -32,6 +32,7 @@ int main(void) {
         free(password);
     }
 
+    system("pause");
     return 0;
 }
 

@@ -87,5 +87,6 @@ int main(void) {
 
     puts("Saliendo de intranet del banco.\n");
 
+    system("pause");
     return 0;
 }

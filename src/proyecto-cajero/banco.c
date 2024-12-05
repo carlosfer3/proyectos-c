@@ -14,5 +14,6 @@ int main(void) {
 
     leerdatabase(data, &cabeza);
 
+    system("pause");
     return 0;
 }

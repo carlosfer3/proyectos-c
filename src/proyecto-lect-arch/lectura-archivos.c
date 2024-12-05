@@ -28,5 +28,6 @@ int main(void) {
 
     fclose(data);
 
+    system("pause");
     return 0;
 }

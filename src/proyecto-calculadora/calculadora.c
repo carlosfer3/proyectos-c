@@ -9,6 +9,7 @@ int main(void) {
     panel(0);
     interfaz();
 
+    system("pause");
     return 0;
 }
 

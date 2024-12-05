@@ -45,5 +45,6 @@ int main(void) {
     puts("Usuarios agregados correctamente!");
     fclose(data);
 
+    system("pause");
     return 0;
 }
